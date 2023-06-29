@@ -4,9 +4,8 @@ import {
   createText,
   createDiv,
   createGithubLink,
-  createButton,
 } from "./domHelpers";
-
+import {createHome,createProject, createProjectForm, createTaskForm} from "./main";
 (() => {
   const createHeader = () => {
     let header = document.createElement("header");
@@ -19,27 +18,10 @@ import {
     let main = document.createElement("main");
     main.appendChild(createDiv("menu", createHome(), createProject()));
 		main.appendChild(createDiv('content'));
-		
+
     return main;
   };
-  const createHome = () => {
-    const emptyFunction = () => {};
-    return createDiv(
-      "home",
-      createText("Home", "home-title", "h2"),
-      createButton("All Tasks", "home-btn", emptyFunction),
-      createButton("Today", "home-btn", emptyFunction),
-      createButton("This week", "home-btn", emptyFunction)
-    );
-  };
 
-  const createProject = () => {
-    return createDiv(
-      "projects",
-      createText("Projects", "menu-title", "h2"),
-      createButton("Add project", "project-btn", () => {})
-    );
-  };
   const createFooter = () => {
     let footer = document.createElement("footer");
     let footerTitle = createText(

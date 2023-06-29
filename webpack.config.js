@@ -6,6 +6,7 @@ module.exports = {
     website: './src/js/website.js',
     task: './src/js/task.js',
     proyect: './src/js/proyect.js',
+    library: './src/js/library.js'
   },
   plugins: [
     new HtmlWebpackPlugin({

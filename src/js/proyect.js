@@ -1,5 +1,6 @@
 import { Task } from './task';
 
+
 class Project {
     constructor(name) {
         this.name = name;
@@ -10,7 +11,6 @@ class Project {
         if (!id || !title || !date || !priority) {
             throw new Error('Todos los campos son obligatorios para agregar una tarea.');
         }
-        
         const task = new Task(id, title, date, priority);
         this.items.push(task);
     }
@@ -23,7 +23,15 @@ class Project {
             throw new Error('No se encontró ninguna tarea con el ID especificado.');
         }
     }
-
+    findTaskById(taskId) {
+        const task = this.items.find(task => task.id === taskId);
+        if (task) {
+          return task;
+        } else {
+          throw new Error('No se encontró ninguna tarea con el ID especificado.');
+        }
+      }
+      
     printTask(taskId) {
         const task = this.items.find(task => task.id === taskId);
         if (task) {
@@ -39,16 +47,6 @@ class Project {
     }
 }
 
-const myProject = new Project('House keeping');
-
-try {
-    myProject.addTask('1', 'Do Math', '2023-07-22', '!');
-    console.log(myProject);
-    
-    myProject.printTask('1');
-} catch (error) {
-    console.log(error.message);
-}
-
+export{Project};
 
 

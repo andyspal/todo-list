@@ -37,4 +37,9 @@ const createButton = (text, className, onClick) => {
     button.addEventListener('click', onClick);
     return button;
   };
+
+
+const displayProject = (title) => {
+  createDiv('project',createText(`${title}`,'project-title','h2'),createButton('Add task','add-task',()=>{}))
+}
 export{createDiv,createText,createGithubLink,createButton};
