@@ -28,11 +28,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-<<<<<<< HEAD
     "date-fns": "^2.30.0",
     "moment": "^2.29.4"
-=======
-    "date-fns": "^2.30.0"
->>>>>>> ee641123dfdf6e1c4b23ac42516e229d8b9bbaae
   }
 }
