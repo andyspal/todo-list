@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+    --color-secondary: #424242;
+    --color-primary: #F5F5F5;
+}
+
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+
+html {
+    font-size: 20px;
+}
+
+* {
+    box-sizing: border-box;
+    color: var(--color-primary);
+}
+
+body {
+    background-color: var(--color-secondary);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+header,
+footer {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    height: 10vh;
+    min-height: 4rem;
+}
+
+header {
+    gap: 2rem;
+    border-bottom: 2px solid var(--color-primary);
+}
+
+footer {
+    border-top: 2px solid var(--color-primary);
+    justify-content: center;
+    gap: 1rem
+}
+
+.header-toggle-button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.header-toggle-image {
+    width: 3rem;
+}
+
+.header-title {
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.footer-title {
+    font-size: 1.5rem;
+}
+
+.footer-image {
+    width: 2.5rem;
+    transition: all .1s;
+}
+
+.header-toggle-button:hover,
+.footer-image:hover,
+.add-project-button:hover{
+    transform: scale(1.07);
+}
+
+.header-button:active,
+.footer-image:active {
+    opacity: .7;
+}
+
+
+.main {
+    display: flex;
+}
+
+.content{
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(300px,1fr));
+}
+.home, .projects{
+    padding: 1rem;
+}
+
+.home-title, .content-project-title{
+    font-size: 2rem;
+    text-transform: capitalize;
+    padding-bottom: 1rem;
+}
+.content-project-title{
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.task-container{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-primary);
+    margin-bottom: .3rem;
+}
+.task-title{
+    font-size: 1.5rem;
+    display: flex;
+    gap: .2rem;
+    align-items: center;
+    padding: .7rem;
+    color: var(--color-secondary);
+}
+
+.task-display-info{
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--color-primary);
+    color: var(--color-secondary);
+
+}
+
+.task-info{
+    background-color: var(--color-primary);
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: space-between;
+}
+.task-info p{
+    color: var(--color-secondary);
+}
+
+.task-remove-button{
+    display: none;
+}
+
+.add-task-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+    /* Basic form layout */
+    .task-form {
+        background-color: var(--color-secondary);
+        padding: 20px;
+        width: 300px;
+        margin: 20px auto;
+
+      }
+  
+      /* Style the input fields */
+      .task-input-name,
+      .task-input-date {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+     
+      }
+  
+      /* Style the label for priority */
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+  
+      /* Style the priority select box */
+      .task-select-priority {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+
+      }
+  
+      /* Style the submit button */
+      .submit-task-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+  
+      /* Style the submit button on hover */
+      .submit-task-button:hover {
+        background-color: #0056b3;
+      }
+
+      .projects{
+        position: relative;
+      }
