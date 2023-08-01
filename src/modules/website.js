@@ -5,6 +5,7 @@ import {toggleDisplay, handleProjectFormSubmit} from "./eventListeners";
 import '../styles/aside.css'
 import myLibrary, { Task } from "./dataModels";
 import moment from "moment";
+import { saveTaskLS, removeTaskLS, getProjectLS, saveProjectLS, updateProjectLS, getTaskLS } from "./localStorage";
 const website = () => {
 
   const createHeader = (text, menuIcon) => {
@@ -29,7 +30,7 @@ const website = () => {
     return header;
   };
   const createMain = () => {
-    let container, aside, content, home, projects;
+    let container, aside, content, home, projects, completedTasks;
 
     container = document.createElement("main");
     container.classList.add("main");
@@ -46,8 +47,10 @@ const website = () => {
     projects = document.createElement("section");
     projects.classList.add("projects");
 
+    completedTasks = document.createElement("section");
+    completedTasks.classList.add("completed-tasks");
 
-    content.append(home,projects);
+    content.append(home,projects, completedTasks);
     container.append(aside, content);
     return container;
   };
@@ -138,6 +141,7 @@ const website = () => {
     input.classList.add(`${inputConfig.className}-input`)
     input.type = inputConfig.type;
     input.name = inputConfig.name;
+    input.maxLength = 28;
     input.placeholder = inputConfig.placeholder;
     input.required = inputConfig.required;
 
@@ -189,6 +193,7 @@ const website = () => {
   // Handle home aside events
   const homeList = document.querySelector(".list.home-list");
   homeList.addEventListener("click",toggleHomeItem);
+
   function toggleHomeItem(event){
     const listItem = event.target.closest(".list-item");
     if(!listItem)
@@ -247,76 +252,6 @@ const website = () => {
     }
   }
 
-  function checkTasks(tasks){
-    const home = document.querySelector(".home");
-    if (tasks.length === 0){
-      const noTasks = document.createElement("h2");
-      noTasks.textContent = "No tasks available";
-      home.appendChild(noTasks);
-      
-    }
-    else{
-      tasks.forEach(task => {
-       home.appendChild(displayTask(task));
-      });
-    }
-  }
-
-  function displayTask(task) {
-  const taskContainer = document.createElement("div");
-  taskContainer.classList.add("task-container");
-
-  const taskTitle = document.createElement("h2");
-  taskTitle.classList.add("task-title");
-  taskTitle.textContent = task.name;
-
-  const taskDisplayInfo = document.createElement("button");
-  taskDisplayInfo.classList.add("task-display-info");
-  taskDisplayInfo.textContent = "+"
-
-  const taskInfo = document.createElement("div");
-  taskInfo.classList.add("task-info");
-  taskInfo.style.display = "none";
-
-  toggleDisplay(taskDisplayInfo,taskInfo,"flex","none");
-
-  const taskDate = document.createElement("p");
-  taskDate.classList.add("task-date");
-  taskDate.textContent = "Date: " + moment(task.date).format('DD/MM/YY');
-
-  const taskPriority = document.createElement("p");
-  taskPriority.classList.add("task-priority");
-  taskPriority.textContent = "Priority: " + task.priority; 
-
-  const taskCompleted = document.createElement("input");
-  taskCompleted.classList.add("task-completed");
-  taskCompleted.type = "checkbox";
-  taskCompleted.checked = task.completed; 
-  taskCompleted.addEventListener("change",() => {
-    myLibrary.addCompletedTask(task);
-    
-    const section = document.querySelector(".home-title");
-    const project = myLibrary.getProjectById(task.projectId);
-    project.removeTask(task.id);
-    taskContainer.remove();
-    displayHome(section);
-  })
-
-  const removeButton = document.createElement("button");
-  removeButton.classList.add("task-remove-button");
-  removeButton.type = "button";
-  removeButton.textContent = "Remove";
-  removeButton.addEventListener("click", () => {
-    const project = myLibrary.getProjectById(task.projectId);
-    project.removeTask(task.id);
-    taskContainer.remove();
-  });
-
-  taskInfo.append(taskDate, taskPriority, taskCompleted);
-  taskTitle.appendChild(taskDisplayInfo);
-  taskContainer.append(taskTitle, taskInfo, removeButton);
-  return taskContainer;
-  }
   // Handle project aside events
   projectList.addEventListener("click", toggleProjectItem)
   console.log(projectList);
@@ -347,9 +282,6 @@ const website = () => {
     projects.dataset.projectId = item.getAttribute("project-id");
     
 
-    // let tasksContainer = document.createElement("div");
-    // tasksContainer.classList.add("project-tasks");
-    // projects.appendChild(tasksContainer);
 
     let addTaskButton = document.createElement("button");
     addTaskButton.textContent = "+ Add Task";
@@ -359,18 +291,28 @@ const website = () => {
     projects.appendChild(projectTitle);
     let project = myLibrary.getProjectById(item.getAttribute("project-id"));
     let tasks = project.getTasks();
+    let completedTasks = document.querySelector(".completed-tasks")
+    let completedSubtitle = document.querySelector(".completed-subtitle");
     if(tasks.length === 0){
-      const noTasks = document.createElement("h2");
+      const noTasks = document.createElement("p");
       noTasks.textContent = "No tasks available";
       noTasks.classList.add("project-no-tasks")
       projects.appendChild(noTasks);
     }
     else{
       tasks.forEach(task => {
-        projects.appendChild(displayTask(task));
+        if(!task.completed){
+          projects.appendChild(displayTask(task));
+        }
+        else{
+          if(completedSubtitle){
+            completedSubtitle.remove();
+            completedTasks.appendChild(displayTaskOnly(task));
+          }
+        }
       });
     }
-    
+
     const form = taskForm();
     toggleDisplay(addTaskButton,form,"block","none");
     
@@ -386,15 +328,23 @@ function taskForm() {
   form.classList.add("task-form");
 
   // Create input element
+  const nameLabel = document.createElement("label");
+  nameLabel.htmlFor = "name";
+  nameLabel.textContent = "Name";
   const nameInput = document.createElement("input");
-  nameInput.name = "name"
+  nameInput.name = "name";
+  nameInput.id = "name";
   nameInput.classList.add("task-input-name");
   nameInput.type = "text";
   nameInput.placeholder = "name";
   nameInput.required = true;
   
+  const dateLabel = document.createElement("label");
+  dateLabel.htmlFor = "date";
+  dateLabel.textContent = "Due date";
   const dateInput = document.createElement("input");
-  dateInput.name = "date"
+  dateInput.name = "date";
+  dateInput.id = "date";
   dateInput.classList.add("task-input-date");
   dateInput.type = "date";
   dateInput.placeholder = "duedate";
@@ -421,7 +371,7 @@ function taskForm() {
   submitElement.classList.add("submit-task-button");
   submitElement.textContent = "+";
 
-  form.append(nameInput, dateInput, priorityLabel, prioritySelect, submitElement);
+  form.append(nameLabel, nameInput, dateLabel, dateInput, priorityLabel, prioritySelect, submitElement);
   // Return the form element
   return form;
 }
@@ -440,23 +390,280 @@ function handleTask(event){
 
   form.reset();
   form.style.display = "none";
-  const task = new Task(`id_${new Date().getTime()}`,data.get("name"),data.get("date"),data.get("priority"),false, projectId);
+  const taskDate = data.get("date");
 
+  const newDate = new Date(taskDate);
+  newDate.setDate(newDate.getDate() + 1);
+  const task = new Task(`task_${new Date().getTime()}`,data.get("name"),newDate, data.get("priority"),false, projectId);
+  saveTaskLS(task);
   const project = myLibrary.getProjectById(projectId);
   project.addTask(task);
+  const projectLS = getProjectLS(projectId);
+  console.log(projectLS);
+  projectLS.tasks = project.tasks;
+  updateProjectLS(projectLS)
+  
   const allTaskDisplayed = document.querySelectorAll(".task-container");
   allTaskDisplayed.forEach(task => {
       task.remove();
   });
   const tasks = project.getTasks();
   tasks.forEach(task => {
-
-    projectContainer.appendChild(displayTask(task));
+    if(!task.completed){
+      projectContainer.appendChild(displayTask(task));
+    }
   });
   const section = document.querySelector(".home-title");
   displayHome(section);
+  // const completedTasks = myLibrary.getCompletedTasks();
+  // const completedTasksContainer = document.querySelector(".completed-tasks");
+  // completedTasks.forEach(task => {
+  //   completedTasksContainer.appendChild(displayTaskOnly(task));
+  // });
 }
-} 
+
+//completed Tasks section
+const completedTasksContainer = document.querySelector(".completed-tasks");
+const completedTitle = document.createElement("h2");
+completedTitle.append("Completed Tasks");
+completedTitle.classList.add("content-title");
+completedTasksContainer.appendChild(completedTitle);
+
+const clearTaskButton = document.createElement("button");
+clearTaskButton.type = "button";
+clearTaskButton.classList.add("clear-task-button");
+clearTaskButton.append("x Clear")
+clearTaskButton.style.display = "none";
+
+clearTaskButton.addEventListener("click",() => {
+  const completedTasks = completedTasksContainer.querySelectorAll(".task-container-completed");
+  completedTasks.forEach(task => {
+    let taskId = task.getAttribute("task-id");
+    removeTaskLS(taskId);
+    task.remove();
+    clearTaskButton.style.display = "none";
+  });
+
+  myLibrary.clearCompletedTaskList()
+  const noTasks = document.createElement("p");
+  noTasks.textContent = "No tasks available";
+  noTasks.classList.add("completed-subtitle");
+  completedTasksContainer.append(noTasks);
+})
+completedTitle.appendChild(clearTaskButton);
+
+const noTasks = document.createElement("p");
+noTasks.textContent = "No tasks available";
+noTasks.classList.add("completed-subtitle");
+completedTasksContainer.append(noTasks);
 
 
-export default website;
+
+}
+
+
+
+function displayHome(item) {
+  const home = document.querySelector(".home");
+  home.innerHTML = "";
+
+  const dataSection = item.getAttribute("data-section");
+
+  // Create home title
+  let homeTitle = document.createElement("h2");
+  homeTitle.classList.add("home-title");
+  homeTitle.textContent = item.textContent;
+  homeTitle.setAttribute("data-section", dataSection);
+  home.appendChild(homeTitle);
+
+  let tasks = [];
+  switch (dataSection) {
+    case "all-tasks":
+      // Get all tasks from myLibrary
+      tasks = myLibrary.getAllTasks();
+      // Display each task in the home section
+      checkTasks(tasks);
+      break;
+    case "today":
+      // Get today's tasks from myLibrary
+      tasks = myLibrary.getTodayTasks();
+      // Display each task in the home section
+      checkTasks(tasks);
+      break;
+    case "this-week":
+      // Get this week's tasks from myLibrary
+      tasks = myLibrary.getThisWeekTasks();
+      // Display each task in the home section
+      checkTasks(tasks);
+      break;
+    case "important":
+      // Get important tasks from myLibrary
+      tasks = myLibrary.getImportantTasks();
+      // Display each task in the home section
+      checkTasks(tasks);
+      break;
+    default:
+      break;
+  }
+}
+
+function checkTasks(tasks) {
+  const home = document.querySelector(".home");
+  const title = home.querySelector("h2");
+
+  // Eliminamos el contenido anterior antes de volver a mostrar las tareas o el mensaje
+  home.innerHTML = "";
+
+  if (tasks.length === 0) {
+    const noTasks = document.createElement("p");
+    noTasks.textContent = "No tasks available";
+    home.appendChild(title);
+    home.appendChild(noTasks);
+  } else {
+    let allCompleted = true; // Variable para indicar si todas las tareas están completadas
+    home.appendChild(title);
+    tasks.forEach(task => {
+      if (!task.completed) {
+        allCompleted = false; // Si alguna tarea no está completada, marcamos la variable como false
+        home.appendChild(displayTask(task));
+      }
+    });
+
+    // Comprobamos si no se agregaron tareas a la página o si todas las tareas están completadas
+    if (home.children.length === 0 || allCompleted) {
+      const noTasks = document.createElement("p");
+      noTasks.textContent = "No tasks available";
+      home.appendChild(noTasks);
+    }
+  }
+
+  // Volvemos a insertar el título en .home
+}
+
+
+function displayTask(task) {
+  const taskContainer = document.createElement("div");
+  taskContainer.classList.add("task-container");
+  taskContainer.setAttribute("task-id", task.id);
+  const taskTitle = document.createElement("h2");
+  taskTitle.classList.add("task-title");
+  taskTitle.textContent = task.name;
+
+  const taskDisplayInfo = document.createElement("button");
+  taskDisplayInfo.classList.add("task-display-info");
+  taskDisplayInfo.textContent = "+"
+
+  const taskInfo = document.createElement("div");
+  taskInfo.classList.add("task-info");
+  taskInfo.style.display = "none";
+
+  toggleDisplay(taskDisplayInfo,taskInfo,"flex","none");
+
+  const taskDate = document.createElement("p");
+  taskDate.classList.add("task-date");
+  taskDate.textContent = "Date: " + moment(task.date).format('DD/MM/YY');
+
+  const taskPriority = document.createElement("p");
+  taskPriority.classList.add("task-priority");
+  taskPriority.textContent = "Priority: " + task.priority; 
+
+  const taskCompleted = document.createElement("input");
+  taskCompleted.classList.add("task-completed");
+  taskCompleted.type = "checkbox";
+  taskCompleted.checked = task.completed; 
+  taskCompleted.addEventListener("change",() => {
+    myLibrary.addCompletedTask(task);
+    task.completed = true;
+    const taskData = getTaskLS(task.id);
+    if(taskData){
+      console.log(taskData);
+      taskData.completed = true;
+      localStorage.setItem(taskData.id, JSON.stringify(taskData));
+    }
+
+    const taskContainers = document.querySelectorAll(`[task-id="${task.id}"]`);
+    taskContainers.forEach(task => {
+      task.remove();
+    });
+    
+    const completedTasksContainer = document.querySelector(".completed-tasks");
+    const completedSubtitle = document.querySelector(".completed-subtitle");
+    const completedButton = document.querySelector(".clear-task-button")
+    completedButton.style.display = "flex";
+    if(completedSubtitle){
+      completedSubtitle.remove();
+    }
+    
+    completedTasksContainer.appendChild(displayTaskOnly(task));
+    
+    
+    
+    const section = document.querySelector(".home-title");
+    const project = myLibrary.getProjectById(task.projectId);
+    project.removeTask(task.id);
+    displayHome(section);
+
+    const projectTasks = document.querySelectorAll('section.projects .task-container');
+    if(projectTasks.length === 0){
+      const noTasks = document.createElement("p");
+      noTasks.textContent = "No tasks available";
+      noTasks.classList.add("project-no-tasks");
+      const projects = document.querySelector(".projects");
+      projects.appendChild(noTasks);
+    }
+
+    
+    
+  })
+
+  const removeButton = document.createElement("button");
+  removeButton.classList.add("task-remove-button");
+  removeButton.type = "button";
+  removeButton.textContent = "Remove";
+  removeButton.addEventListener("click", () => {
+    const project = myLibrary.getProjectById(task.projectId);
+    removeTaskLS(task.id);
+    project.removeTask(task.id);
+    taskContainer.remove();
+  });
+
+  taskInfo.append(taskDate, taskPriority, taskCompleted);
+  taskTitle.appendChild(taskDisplayInfo);
+  taskContainer.append(taskTitle, taskInfo, removeButton);
+  return taskContainer;
+  }
+
+export function displayTaskOnly(task){
+  const taskContainer = document.createElement("div");
+  taskContainer.classList.add("task-container-completed");
+  taskContainer.setAttribute("task-id", task.id);
+  const taskTitle = document.createElement("h2");
+  taskTitle.classList.add("task-title");
+  taskTitle.textContent = task.name;
+
+  const taskDisplayInfo = document.createElement("button");
+  taskDisplayInfo.classList.add("task-display-info");
+  taskDisplayInfo.textContent = "+"
+
+  const taskInfo = document.createElement("div");
+  taskInfo.classList.add("task-info");
+  taskInfo.style.display = "none";
+
+  toggleDisplay(taskDisplayInfo,taskInfo,"flex","none");
+
+  const taskDate = document.createElement("p");
+  taskDate.classList.add("task-date");
+  taskDate.textContent = "Date: " + moment(task.date).format('DD/MM/YY');
+
+  const taskPriority = document.createElement("p");
+  taskPriority.classList.add("task-priority");
+  taskPriority.textContent = "Priority: " + task.priority; 
+
+  taskInfo.append(taskDate, taskPriority);
+  taskTitle.appendChild(taskDisplayInfo);
+  taskContainer.append(taskTitle, taskInfo);
+
+  return taskContainer;
+}
+export {displayHome,checkTasks,displayTask, website};
+

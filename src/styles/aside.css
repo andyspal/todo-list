@@ -1,114 +1,120 @@
 .aside {
-    display: flex;
-    flex-direction: column;
-    width: 15rem;
-    background-color: #dadada;
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  background-color: #dadada;
 }
 
 .list-title {
-    font-size: 2rem;
-    color: var(--color-secondary);
-    border-bottom: 2px solid var(--color-secondary);
-    padding: .9rem;
+  font-size: 2rem;
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
+  padding: .9rem;
 }
 
-.list-item{
-    cursor: pointer;
-    text-transform: capitalize;
-    padding: .9rem;
-    color: var(--color-secondary);
+.list-item {
+  cursor: pointer;
+  text-transform: capitalize;
+  padding: .9rem;
+  color: var(--color-secondary);
 
 }
-.list-item:hover{
-    background-color: #acacac;
+
+.list-item:hover {
+  background-color: #acacac;
 }
 
-.list-item:active{
-    opacity: .7;
+.list-item:active {
+  opacity: .7;
 }
 
 .active {
-    background-color: #F5F5F5;
-    color: #000000;
-    font-weight: bold;
-  }
+  background-color: #F5F5F5;
+  color: #000000;
+  font-weight: bold;
+}
 
-.aside-toggle-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: .9rem;
-    
+.aside-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .9rem;
+
 }
-.aside-toggle-button{
-    display: flex;
-    gap: .5rem;
-    border: none;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    background-color: #acacac; 
-    padding: .5rem 1rem;
+
+.aside-toggle-button {
+  display: flex;
+  gap: .5rem;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  background-color: #acacac;
+  padding: .5rem 1rem;
 }
-.aside-toggle-icon{
-    width: 1rem;
+
+.aside-toggle-icon {
+  width: 1rem;
 }
-.aside-toggle-content{
-    font-size: 1rem;
-    color: var(--color-secondary);
+
+.aside-toggle-content {
+  font-size: 1rem;
+  color: var(--color-secondary);
 }
 
 .add-project-form {
 
-    align-items: center;
-    padding:0 .9rem;
-    }
-  
-  .add-project-input {
-    width: 80%;
-    font-size: 1rem;
-    border: none;
-    color: #333;
-    padding: .3rem .6rem;
-  }
-  
-  .add-project-button {
-    width: 20%;
-    font-size: 1rem;
-    padding: .3rem;
-    border: none;
-    background-color: var(--color-secondary);
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .add-project-button:hover {
-    background-color: #555;
-  }
-  
-  .add-project-button:focus {
-    outline: none;
-  }
-  
+  align-items: center;
+  padding: 0 .9rem;
+}
 
-  .list-item.project{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.add-project-input {
+  width: 80%;
+  font-size: 1rem;
+  border: none;
+  color: #333;
+  padding: .3rem .6rem;
+}
 
-  .project-title{
-    color: var(--color-secondary);
-  }
+.add-project-button {
+  width: 20%;
+  font-size: 1rem;
+  padding: .3rem;
+  border: none;
+  background-color: var(--color-secondary);
+  color: #fff;
+  cursor: pointer;
+}
 
-  .aside-remove-button{
-    border: none;
-    background-color: rgb(145, 0, 0);
-    padding: .3rem .5rem;
-    cursor: pointer;
-  }
+.add-project-button:hover {
+  background-color: #555;
+}
 
-  
-  .aside-remove-button:hover{
-    background-color: rgb(190, 0, 0);
-  }
+.add-project-button:focus {
+  outline: none;
+}
+
+
+.list-item.project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-title {
+  color: var(--color-secondary);
+  word-wrap: break-word;
+  max-width: 230px;
+}
+
+.aside-remove-button {
+  border: none;
+  background-color: rgb(145, 0, 0);
+  padding: .3rem .5rem;
+  cursor: pointer;
+}
+
+
+.aside-remove-button:hover {
+  background-color: rgb(190, 0, 0);
+}

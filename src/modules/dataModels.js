@@ -1,5 +1,5 @@
 import moment from "moment";
-
+import { format } from "date-fns";
 export class Task {
   constructor(id, name, date, priority, completed,projectId) {
     this.id = id;
@@ -47,6 +47,9 @@ export class Library {
   getProjects() {
     return Array.from(this.projects.values());
   }
+  getCompletedTasks(){
+    return Array.from(this.taskCompleted.values());
+  }
   
   removeProject(projectId) {
     this.projects.delete(projectId);
@@ -55,20 +58,27 @@ export class Library {
   clearCompletedTaskList(){
     this.taskCompleted = new Map();
   }
+
   getTodayTasks() {
-    const today = new Date();
+    const todayDate = new Date();
+    const todayDateFormat = format(todayDate, "MM/dd/yyyy");
     const todayTasks = [];
     this.projects.forEach((project) => {
       const projectTasks = project.getTasks();
       const projectTodayTasks = projectTasks.filter((task) => {
         const taskDate = new Date(task.date);
-        return taskDate.toDateString() === today.toDateString();
+        console.log(taskDate);
+        const taskDateFormat = format(taskDate, "MM/dd/yyyy");
+        console.log(taskDateFormat);
+        return taskDateFormat === todayDateFormat;
       });
-
       todayTasks.push(...projectTodayTasks);
     });
+  
     return todayTasks;
   }
+  
+  
 
   getAllTasks() {
     const tasks = [];
@@ -119,13 +129,9 @@ export class Library {
 }
 
 let myLibrary = new Library();
-let today = new Date();
-const project1 = new Project("project1", "Study React");
-const project2 = new Project("project2", "Make laundry");
-const task1 = new Task(new Date().getTime(),"Read fundamentals",today,"high",false,project1.id);
-project1.addTask(task1);
-myLibrary.addProject(project2);
-myLibrary.addProject(project1);
+
+// Save library to localStorage
+// localStorage.clear()
 
 
 export default myLibrary;

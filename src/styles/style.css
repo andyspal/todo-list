@@ -54,7 +54,7 @@ footer {
     gap: 1rem
 }
 
-.header-toggle-button{
+.header-toggle-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -81,7 +81,7 @@ footer {
 
 .header-toggle-button:hover,
 .footer-image:hover,
-.add-project-button:hover{
+.add-project-button:hover {
     transform: scale(1.07);
 }
 
@@ -95,33 +95,61 @@ footer {
     display: flex;
 }
 
-.content{
+.content {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(2,minmax(300px,1fr));
-}
-.home, .projects{
-    padding: 1rem;
+    grid-template-columns: repeat(1, minmax(300px, 1fr));
 }
 
-.home-title, .content-project-title{
+/* .completed-tasks {
+    grid-column-start: 1;
+    grid-column-end: 3;
+} */
+
+.home,
+.projects,
+.completed-tasks {
+    padding: 1rem;
+    min-height: 400px;
+}
+
+.home-title,
+.content-project-title,
+.content-title {
     font-size: 2rem;
-    text-transform: capitalize;
     padding-bottom: 1rem;
 }
-.content-project-title{
+
+.home-title,
+.content-title {
+    text-transform: capitalize;
+}
+
+.content-project-title,
+.content-title {
     display: flex;
     align-items: center;
     gap: .4rem;
+    /* word-wrap: break-word; */
+    /* max-width: 700px; */
 }
 
-.task-container{
+
+.content-project-title{
+    grid-column-start: 1;
+    grid-column-end: -1;
+}
+
+.task-container,
+.task-container-completed {
     display: flex;
     flex-direction: column;
     background-color: var(--color-primary);
     margin-bottom: .3rem;
+    
 }
-.task-title{
+
+.task-title {
     font-size: 1.5rem;
     display: flex;
     gap: .2rem;
@@ -130,7 +158,7 @@ footer {
     color: var(--color-secondary);
 }
 
-.task-display-info{
+.task-display-info {
     background-color: transparent;
     border: none;
     font-size: 2rem;
@@ -140,81 +168,90 @@ footer {
 
 }
 
-.task-info{
+.task-info {
     background-color: var(--color-primary);
     gap: 1rem;
     padding: 1rem;
     justify-content: space-between;
 }
-.task-info p{
+
+.task-info p {
     color: var(--color-secondary);
 }
 
-.task-remove-button{
+.task-remove-button {
     display: none;
 }
 
-.add-task-btn{
+.add-task-btn,
+.clear-task-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
 }
 
-    /* Basic form layout */
-    .task-form {
-        background-color: var(--color-secondary);
-        padding: 20px;
-        width: 300px;
-        margin: 20px auto;
+.task-form {
+    margin: 20px 0;
+    background-color: var(--color-primary);
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
 
-      }
-  
-      /* Style the input fields */
-      .task-input-name,
-      .task-input-date {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-     
-      }
-  
-      /* Style the label for priority */
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-  
-      /* Style the priority select box */
-      .task-select-priority {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
+.task-input-name,
+.task-input-date {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    color: var(--color-secondary);
+}
 
-      }
-  
-      /* Style the submit button */
-      .submit-task-button {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  
-      /* Style the submit button on hover */
-      .submit-task-button:hover {
-        background-color: #0056b3;
-      }
+/* Style the label for priority */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--color-secondary);
+}
 
-      .projects{
-        position: relative;
-      }
+.task-select-priority {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--color-secondary);
+}
+
+.task-select-priority option {
+    background-color: #fff;
+    color: var(--color-secondary);
+}
+
+
+
+/* Style the submit button */
+.submit-task-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-secondary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style the submit button on hover */
+.submit-task-button:hover {
+    background-color: #535353;
+}
+
+.projects {
+    position: relative;
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  }
