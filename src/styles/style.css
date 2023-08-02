@@ -39,11 +39,12 @@ footer {
     display: flex;
     align-items: center;
     padding: 1rem;
-    height: 10vh;
-    min-height: 4rem;
+    height: 4rem;
 }
 
 header {
+    width: 100%;
+    background-color: var(--color-secondary);
     gap: 2rem;
     border-bottom: 2px solid var(--color-primary);
 }
@@ -62,20 +63,20 @@ footer {
 }
 
 .header-toggle-image {
-    width: 3rem;
+    width: 2.5rem;
 }
 
 .header-title {
-    font-size: 2rem;
-    text-transform: uppercase;
+    font-size: 1.8rem;
+    text-transform: capitalize;
 }
 
 .footer-title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .footer-image {
-    width: 2.5rem;
+    width: 2rem;
     transition: all .1s;
 }
 
@@ -109,8 +110,8 @@ footer {
 .home,
 .projects,
 .completed-tasks {
-    padding: 1rem;
-    min-height: 400px;
+    padding: 2rem;
+    min-height: 350px;
 }
 
 .home-title,
@@ -130,12 +131,9 @@ footer {
     display: flex;
     align-items: center;
     gap: .4rem;
-    /* word-wrap: break-word; */
-    /* max-width: 700px; */
 }
 
-
-.content-project-title{
+.content-project-title {
     grid-column-start: 1;
     grid-column-end: -1;
 }
@@ -146,7 +144,7 @@ footer {
     flex-direction: column;
     background-color: var(--color-primary);
     margin-bottom: .3rem;
-    
+
 }
 
 .task-title {
@@ -173,6 +171,7 @@ footer {
     gap: 1rem;
     padding: 1rem;
     justify-content: space-between;
+    align-items: center;
 }
 
 .task-info p {
@@ -192,10 +191,11 @@ footer {
 }
 
 .task-form {
-    margin: 20px 0;
+    margin: 1rem 0;
     background-color: var(--color-primary);
     padding: 20px;
-    width: 300px;
+    width: 100%;
+    max-width: 600px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
 }
 
@@ -253,3 +253,109 @@ label {
     position: relative;
 }
 
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0dbe00;
+    border-radius: 10px;
+    outline: none;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+}
+
+
+
+
+
+@media screen and (max-width: 991px) {
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+    }
+
+    main {
+        margin-top: 4rem;
+    }
+
+    .home {
+        padding: 1rem;
+    }
+
+    .projects,
+    .completed-tasks {
+        padding: 1rem;
+    }
+
+    .home p,
+    .projects p,
+    .completed-tasks p,
+    .home-title {
+        text-align: center;
+    }
+
+    .content-title,
+    .content-project-title {
+        justify-content: center;
+    }
+
+    .task-form {
+        margin: 1rem auto;
+    }
+
+    .task-title {
+        justify-content: space-between;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+
+    .home-title,
+    .content-project-title,
+    .content-title {
+        font-size: 1.5rem;
+    }
+
+    .add-task-btn,
+    .clear-task-button {
+        font-size: 0.9rem;
+    }
+
+    .home p,
+    .projects p,
+    .completed-tasks p {
+        font-size: 1rem;
+    }
+
+    .task-title {
+        font-size: 1.1rem;
+        padding: .5rem;
+    }
+
+    .task-info {
+        padding: .5rem;
+        padding-right: .7rem;
+
+    }
+
+    .home {
+        padding: 0;
+        padding-top: 1rem;
+    }
+
+    .projects,
+    .completed-tasks {
+        padding: 0rem;
+        min-height: 300px;
+    }
+
+    .task-info p {
+        font-size: .8rem;
+    }
+}

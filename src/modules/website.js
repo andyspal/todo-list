@@ -293,6 +293,9 @@ const website = () => {
     let tasks = project.getTasks();
     let completedTasks = document.querySelector(".completed-tasks")
     let completedSubtitle = document.querySelector(".completed-subtitle");
+    const form = taskForm();
+    toggleDisplay(addTaskButton,form,"block","none"); 
+    projects.appendChild(form)
     if(tasks.length === 0){
       const noTasks = document.createElement("p");
       noTasks.textContent = "No tasks available";
@@ -313,10 +316,7 @@ const website = () => {
       });
     }
 
-    const form = taskForm();
-    toggleDisplay(addTaskButton,form,"block","none");
-    
-    projects.appendChild(form)
+
 
     // Handle submit task tutton
     form.addEventListener("submit", handleTask)

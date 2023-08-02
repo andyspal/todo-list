@@ -131,7 +131,7 @@ export class Library {
 let myLibrary = new Library();
 
 // Save library to localStorage
-// localStorage.clear()
+
 
 
 export default myLibrary;
